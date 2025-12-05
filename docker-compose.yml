@@ -1,0 +1,26 @@
+services:
+  duplicate-search-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_DB: ${POSTGRES_DB:-recruiting}
+      POSTGRES_USER: ${POSTGRES_USER:-debug}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-debug}
+      APP_PORT: ${APP_PORT:-8000}
+      USE_PHONE: ${USE_PHONE}
+      PHONE_DB_FIELD: ${PHONE_DB_FIELD:-phone}
+      PHONE_DB_TABLE: ${PHONE_DB_TABLE:-applicant}
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    networks:
+        parent_network: {}
+    volumes:
+      - .:/app
+
+networks:
+  parent_network:
+    external: True
+    name: ${CONTAINER_NETWORK}
